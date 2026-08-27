@@ -1,66 +1,66 @@
 [
   {
     "singular": "китеп",
-    "meaning_zh": "书"
+    "meanings": {"zh": "书", "en": "book", "ru": "книга"}
   },
   {
     "singular": "бала",
-    "meaning_zh": "孩子"
+    "meanings": {"zh": "孩子", "en": "child", "ru": "ребёнок"}
   },
   {
     "singular": "үй",
-    "meaning_zh": "房子"
+    "meanings": {"zh": "房子", "en": "house", "ru": "дом"}
   },
   {
     "singular": "бор",
-    "meaning_zh": "粉笔"
+    "meanings": {"zh": "粉笔", "en": "chalk", "ru": "мел"}
   },
   {
     "singular": "сумка",
-    "meaning_zh": "书包"
+    "meanings": {"zh": "书包；包", "en": "bag", "ru": "сумка"}
   },
   {
     "singular": "мугалим",
-    "meaning_zh": "老师"
+    "meanings": {"zh": "老师", "en": "teacher", "ru": "учитель"}
   },
   {
     "singular": "тоо",
-    "meaning_zh": "山"
+    "meanings": {"zh": "山", "en": "mountain", "ru": "гора"}
   },
   {
     "singular": "өкмөт",
-    "meaning_zh": "政府"
+    "meanings": {"zh": "政府", "en": "government", "ru": "правительство"}
   },
   {
     "singular": "ыр",
-    "meaning_zh": "歌曲"
+    "meanings": {"zh": "歌曲", "en": "song", "ru": "песня"}
   },
   {
     "singular": "акын",
-    "meaning_zh": "诗人"
+    "meanings": {"zh": "诗人", "en": "poet", "ru": "поэт"}
   },
   {
     "singular": "кийим",
-    "meaning_zh": "衣服"
+    "meanings": {"zh": "衣服", "en": "clothing", "ru": "одежда"}
   },
   {
     "singular": "токтом",
-    "meaning_zh": "决定"
+    "meanings": {"zh": "决定", "en": "decision", "ru": "решение"}
   },
   {
     "singular": "конок",
-    "meaning_zh": "客人"
+    "meanings": {"zh": "客人", "en": "guest", "ru": "гость"}
   },
   {
     "singular": "көл",
-    "meaning_zh": "湖"
+    "meanings": {"zh": "湖", "en": "lake", "ru": "озеро"}
   },
   {
     "singular": "студент",
-    "meaning_zh": "学生"
+    "meanings": {"zh": "学生", "en": "student", "ru": "студент"}
   },
   {
     "singular": "шаар",
-    "meaning_zh": "城市"
+    "meanings": {"zh": "城市", "en": "city", "ru": "город"}
   }
 ]
