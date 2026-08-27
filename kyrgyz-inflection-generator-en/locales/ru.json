@@ -1,0 +1,56 @@
+{
+  "locale_name": "Русский",
+  "meaning": "Значение",
+  "number": {
+    "singular": "единственное число",
+    "plural": "множественное число"
+  },
+  "case": {
+    "locative": "местный падеж",
+    "ablative": "исходный падеж",
+    "genitive": "родительный падеж",
+    "dative": "дательный падеж",
+    "accusative": "винительный падеж",
+    "locative_modifier": "локативное определение",
+    "instrumental": "творительный",
+    "caritive": "лишительный",
+    "comparative": "сравнительный"
+  },
+  "possessive": {
+    "my": "мой",
+    "your_singular": "твой",
+    "your_polite": "Ваш",
+    "his_her": "его/её",
+    "our": "наш",
+    "your_plural": "ваш",
+    "your_plural_polite": "Ваш",
+    "their": "их"
+  },
+  "other": {
+    "interrogative": "вопросительная форма",
+    "special": "особая форма",
+    "infinitive": "инфинитив",
+    "stem": "основа",
+    "converb_p": "деепричастие -p",
+    "negative_stem": "отрицательная основа",
+    "imperative": "повелительное наклонение",
+    "negative_imperative": "отрицательное повелительное"
+  },
+  "tense": {
+    "future": "настоящее/будущее",
+    "present_continuous": "настоящее продолженное",
+    "past": "прошедшее",
+    "negative_past": "отрицательное прошедшее",
+    "negative_future": "отрицательное будущее"
+  },
+  "person": {
+    "men": "я",
+    "sen": "ты",
+    "siz": "Вы",
+    "al": "он/она",
+    "biz": "мы",
+    "siler": "вы",
+    "sizder": "Вы",
+    "alar": "они"
+  }
+}
