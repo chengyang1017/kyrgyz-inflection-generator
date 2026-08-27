@@ -7,6 +7,7 @@ import pandas as pd
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 OUTPUT_DIR = ROOT_DIR / "output"
+SUPPORTED_MEANING_LOCALES = ("zh", "en", "ru")
 
 CSV_FILE_NAMES = {
     "Nouns": "kyrgyz_nouns.csv",
@@ -24,13 +25,21 @@ SQLITE_TABLE_NAMES = {
 }
 
 
-def ensure_output_dir():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def ensure_output_dir(output_dir=OUTPUT_DIR):
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 
 def _resolve_path(path):
     path = Path(path)
     return ROOT_DIR / path if not path.is_absolute() else path
+
+
+def _meaning_fields(item):
+    meanings = item.get("meanings", {}) if isinstance(item, dict) else {}
+    return {
+        f"meaning_{locale}": meanings.get(locale, item.get(f"meaning_{locale}", ""))
+        for locale in SUPPORTED_MEANING_LOCALES
+    }
 
 
 def load_nouns():
@@ -48,7 +57,7 @@ def load_nouns():
                 if isinstance(item, dict):
                     nouns.append({
                         "singular": item.get("singular", ""),
-                        "meaning_zh": item.get("meaning_zh", ""),
+                        **_meaning_fields(item),
                     })
             return nouns
 
@@ -63,6 +72,8 @@ def load_nouns():
                 nouns.append({
                     "singular": parts[0] if len(parts) > 0 else "",
                     "meaning_zh": parts[1] if len(parts) > 1 else "",
+                    "meaning_en": "",
+                    "meaning_ru": "",
                 })
         return nouns
 
@@ -86,7 +97,7 @@ def load_verbs():
                     verbs.append({
                         "infinitive": item.get("infinitive", ""),
                         "stem": item.get("stem", ""),
-                        "meaning_zh": item.get("meaning_zh", ""),
+                        **_meaning_fields(item),
                     })
             return verbs
 
@@ -102,6 +113,8 @@ def load_verbs():
                     "infinitive": parts[0] if len(parts) > 0 else "",
                     "stem": parts[1] if len(parts) > 1 else "",
                     "meaning_zh": parts[2] if len(parts) > 2 else "",
+                    "meaning_en": "",
+                    "meaning_ru": "",
                 })
         return verbs
 
@@ -110,9 +123,8 @@ def load_verbs():
 
 
 def export_multi_sheet_excel(sheets, output_path="output/kyrgyz.xlsx"):
-    ensure_output_dir()
     path = _resolve_path(output_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_output_dir(path.parent)
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
         for sheet_name, df in sheets.items():
             df.to_excel(writer, sheet_name=sheet_name, index=False)
@@ -120,9 +132,8 @@ def export_multi_sheet_excel(sheets, output_path="output/kyrgyz.xlsx"):
 
 
 def export_csv_files(sheets, output_dir="output"):
-    ensure_output_dir()
     output_path = _resolve_path(output_dir)
-    output_path.mkdir(parents=True, exist_ok=True)
+    ensure_output_dir(output_path)
 
     legacy_csv = output_path / "kyrgyz.csv"
     if legacy_csv.exists():
@@ -138,8 +149,8 @@ def export_csv_files(sheets, output_dir="output"):
 
 
 def export_json_file(sheets, output_path="output/kyrgyz.json"):
-    ensure_output_dir()
     path = _resolve_path(output_path)
+    ensure_output_dir(path.parent)
     json_data = {
         JSON_KEYS.get(sheet_name, sheet_name.lower()): df.to_dict(orient="records")
         for sheet_name, df in sheets.items()
@@ -150,8 +161,8 @@ def export_json_file(sheets, output_path="output/kyrgyz.json"):
 
 
 def export_sqlite_db(sheets, output_path="output/kyrgyz.db"):
-    ensure_output_dir()
     path = _resolve_path(output_path)
+    ensure_output_dir(path.parent)
     with sqlite3.connect(path) as conn:
         for sheet_name, df in sheets.items():
             table_name = SQLITE_TABLE_NAMES.get(sheet_name, sheet_name.lower())
@@ -159,10 +170,11 @@ def export_sqlite_db(sheets, output_path="output/kyrgyz.db"):
     return path
 
 
-def export_all_formats(sheets):
+def export_all_formats(sheets, output_dir="output"):
+    output_dir = Path(output_dir)
     return {
-        "excel": export_multi_sheet_excel(sheets),
-        "csv": export_csv_files(sheets),
-        "json": export_json_file(sheets),
-        "sqlite": export_sqlite_db(sheets),
+        "excel": export_multi_sheet_excel(sheets, output_dir / "kyrgyz.xlsx"),
+        "csv": export_csv_files(sheets, output_dir),
+        "json": export_json_file(sheets, output_dir / "kyrgyz.json"),
+        "sqlite": export_sqlite_db(sheets, output_dir / "kyrgyz.db"),
     }
