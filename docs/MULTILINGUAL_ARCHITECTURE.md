@@ -28,7 +28,7 @@ Canonical long records          Localization layer
 
 Morphological identity must never depend on a UI language.
 
-Good:
+Historical wide-column keys such as these remain useful as stable generator/debug identifiers:
 
 ```text
 singular
@@ -40,7 +40,7 @@ his_her
 interrogative
 ```
 
-Avoid using translated labels as program keys:
+Translated labels must not be used as program keys:
 
 ```text
 单数
@@ -49,6 +49,21 @@ Avoid using translated labels as program keys:
 ```
 
 Translated labels belong only to the localization/presentation layer.
+
+For normalized long-form features, grammatical persons use language-neutral person/number codes:
+
+```text
+1sg
+2sg
+2sg_polite
+3sg
+1pl
+2pl
+2pl_polite
+3pl
+```
+
+This means the historical key `my` becomes the canonical possessive feature `1sg`, while a verb column ending in `sizder` becomes person `2pl_polite`.
 
 ## Vocabulary meanings
 
@@ -118,7 +133,7 @@ A noun record looks like:
   "form": "китебимде",
   "canonical_key": "singular_my_locative",
   "number": "sg",
-  "possessive": "my",
+  "possessive": "1sg",
   "case": "locative",
   "interrogative": false,
   "special": false
@@ -134,10 +149,12 @@ A finite verb record can look like:
   "canonical_key": "negative_past_sizder",
   "form_type": "finite",
   "tense": "past",
-  "person": "sizder",
+  "person": "2pl_polite",
   "negative": true
 }
 ```
+
+`canonical_key` deliberately preserves the original generator identity for traceability, while the feature fields expose normalized machine-oriented values.
 
 This makes morphology queryable by grammatical features instead of forcing consumers to parse a 400+ column name.
 
@@ -158,7 +175,7 @@ noun_forms
 verb_forms
 ```
 
-The `noun_forms` and `verb_forms` tables also have indexes for common feature queries.
+The `noun_forms` and `verb_forms` tables also have indexes for common feature queries. Duplicate lemmas are assigned distinct fallback lexeme IDs so homonymous entries do not collide in SQLite.
 
 ## Localized presentation output
 
@@ -231,8 +248,9 @@ Every run also regenerates `output/canonical/` once.
 ### Phase 3 — in progress
 
 - Added normalized form records (`form + features`).
+- Normalized grammatical person features to `1sg` / `2sg` / `3sg` / plural equivalents.
 - Added locale-independent canonical JSON and SQLite exports.
 - Kept the existing 400+ column Excel/CSV format as a presentation view.
-- Added tests for feature parsing, long-form conversion, JSON export, and SQLite schema.
+- Added tests for feature parsing, full long-form conversion, duplicate lemmas, JSON export, and SQLite schema.
 
 The next Phase 3 validation step is to run the complete generator and test suite locally, then inspect canonical row counts and sample database queries before considering the normalized format stable.
