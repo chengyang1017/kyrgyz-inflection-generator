@@ -19,11 +19,11 @@
   "possessive": {
     "my": "мой",
     "your_singular": "твой",
-    "your_polite": "Ваш",
+    "your_polite": "Ваш (вежл., ед.)",
     "his_her": "его/её",
     "our": "наш",
-    "your_plural": "ваш",
-    "your_plural_polite": "Ваш",
+    "your_plural": "ваш (мн.)",
+    "your_plural_polite": "Ваш (вежл., мн.)",
     "their": "их"
   },
   "other": {
@@ -46,11 +46,11 @@
   "person": {
     "men": "я",
     "sen": "ты",
-    "siz": "Вы",
+    "siz": "Вы (вежл., ед.)",
     "al": "он/она",
     "biz": "мы",
-    "siler": "вы",
-    "sizder": "Вы",
+    "siler": "вы (мн.)",
+    "sizder": "Вы (вежл., мн.)",
     "alar": "они"
   }
 }
