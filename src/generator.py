@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from canonical import build_canonical_data, export_canonical_data
 from i18n import SUPPORTED_LOCALES, localize_dataframe
 from noun_generator import generate_nouns_df
 from utils import export_all_formats
@@ -23,6 +24,16 @@ def generate_all(locale="en"):
     # Generate Kyrgyz morphology exactly once using canonical machine keys.
     nouns_df = generate_nouns_df()
     verbs_df = generate_verbs_df()
+
+    # Build locale-independent long-form morphology records once.
+    canonical_data = build_canonical_data(nouns_df, verbs_df)
+    export_canonical_data(canonical_data, output_dir=Path("output") / "canonical")
+    print(
+        "[canonical] Exported "
+        f"{len(canonical_data['lexemes'])} lexemes, "
+        f"{len(canonical_data['noun_forms'])} noun forms, "
+        f"{len(canonical_data['verb_forms'])} verb forms"
+    )
 
     locales = SUPPORTED_LOCALES if locale == "all" else (locale,)
 
