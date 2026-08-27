@@ -16,6 +16,28 @@ POSSESSIVE_KEYS = (
     "our",
 )
 
+POSSESSIVE_FEATURE_VALUES = {
+    "my": "1sg",
+    "your_singular": "2sg",
+    "your_polite": "2sg_polite",
+    "his_her": "3sg",
+    "our": "1pl",
+    "your_plural": "2pl",
+    "your_plural_polite": "2pl_polite",
+    "their": "3pl",
+}
+
+PERSON_FEATURE_VALUES = {
+    "men": "1sg",
+    "sen": "2sg",
+    "siz": "2sg_polite",
+    "al": "3sg",
+    "biz": "1pl",
+    "siler": "2pl",
+    "sizder": "2pl_polite",
+    "alar": "3pl",
+}
+
 CASE_KEYS = (
     "locative_modifier",
     "instrumental",
@@ -72,9 +94,9 @@ def parse_noun_column(column):
     if not rest:
         return features
 
-    possessive, rest = _consume_prefix(rest, POSSESSIVE_KEYS)
-    if possessive:
-        features["possessive"] = possessive
+    possessive_key, rest = _consume_prefix(rest, POSSESSIVE_KEYS)
+    if possessive_key:
+        features["possessive"] = POSSESSIVE_FEATURE_VALUES[possessive_key]
 
     if rest == "special":
         features["special"] = True
@@ -102,8 +124,8 @@ def parse_verb_column(column):
             "person": None,
         }
 
-    tense_key, person = _consume_prefix(column, TENSE_KEYS)
-    if not tense_key or not person:
+    tense_key, person_key = _consume_prefix(column, TENSE_KEYS)
+    if not tense_key or person_key not in PERSON_FEATURE_VALUES:
         return None
 
     negative = tense_key.startswith("negative_")
@@ -111,7 +133,7 @@ def parse_verb_column(column):
     return {
         "form_type": "finite",
         "tense": tense,
-        "person": person,
+        "person": PERSON_FEATURE_VALUES[person_key],
         "negative": negative,
     }
 
@@ -123,10 +145,18 @@ def _meanings(row):
     }
 
 
+def _next_lexeme_id(part_of_speech, lemma, seen_ids):
+    base_id = f"{part_of_speech}:{lemma}"
+    count = seen_ids.get(base_id, 0) + 1
+    seen_ids[base_id] = count
+    return base_id if count == 1 else f"{base_id}#{count}"
+
+
 def build_canonical_data(nouns_df, verbs_df):
     lexemes = []
     noun_forms = []
     verb_forms = []
+    seen_ids = {}
 
     noun_form_columns = [
         column for column in nouns_df.columns
@@ -135,7 +165,7 @@ def build_canonical_data(nouns_df, verbs_df):
 
     for _, row in nouns_df.iterrows():
         lemma = row.get("singular", "")
-        lexeme_id = f"noun:{lemma}"
+        lexeme_id = _next_lexeme_id("noun", lemma, seen_ids)
         lexemes.append({
             "id": lexeme_id,
             "part_of_speech": "noun",
@@ -162,7 +192,7 @@ def build_canonical_data(nouns_df, verbs_df):
 
     for _, row in verbs_df.iterrows():
         lemma = row.get("infinitive", "")
-        lexeme_id = f"verb:{lemma}"
+        lexeme_id = _next_lexeme_id("verb", lemma, seen_ids)
         lexemes.append({
             "id": lexeme_id,
             "part_of_speech": "verb",
@@ -202,9 +232,10 @@ def export_canonical_sqlite(data, output_path):
     path.parent.mkdir(parents=True, exist_ok=True)
 
     with sqlite3.connect(path) as conn:
-        conn.execute("DROP TABLE IF EXISTS lexemes")
+        conn.execute("PRAGMA foreign_keys = ON")
         conn.execute("DROP TABLE IF EXISTS noun_forms")
         conn.execute("DROP TABLE IF EXISTS verb_forms")
+        conn.execute("DROP TABLE IF EXISTS lexemes")
 
         conn.execute(
             """
@@ -312,6 +343,7 @@ def export_canonical_sqlite(data, output_path):
             ],
         )
 
+        conn.execute("CREATE INDEX idx_lexemes_lemma ON lexemes(lemma)")
         conn.execute("CREATE INDEX idx_noun_forms_lexeme ON noun_forms(lexeme_id)")
         conn.execute("CREATE INDEX idx_noun_forms_features ON noun_forms(number, possessive, case_name, interrogative, special)")
         conn.execute("CREATE INDEX idx_verb_forms_lexeme ON verb_forms(lexeme_id)")
