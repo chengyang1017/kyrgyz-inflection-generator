@@ -125,7 +125,13 @@ def test_all_canonical_noun_columns_can_be_localized():
     for locale in SUPPORTED_LOCALES:
         labels = load_locale(locale)
         for column in _canonical_noun_columns():
-            assert localize_noun_column(column, labels) != column
+            localized = localize_noun_column(column, labels)
+            assert localized
+            # A simple canonical token may legitimately equal its English label,
+            # e.g. "singular" -> "singular". Composite machine keys must be
+            # rendered into a human-readable label rather than leaking through.
+            if "_" in column:
+                assert localized != column
 
 
 def test_all_localized_noun_columns_are_unique():
