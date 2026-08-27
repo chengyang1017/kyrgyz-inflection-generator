@@ -73,6 +73,28 @@ def _consume_prefix(value, candidates):
     return None, value
 
 
+def _assert_unique_columns(columns, locale, part_of_speech):
+    seen = {}
+    duplicates = []
+
+    for column in columns:
+        normalized = str(column).casefold()
+        if normalized in seen:
+            duplicates.append((seen[normalized], column))
+        else:
+            seen[normalized] = column
+
+    if duplicates:
+        duplicate_text = ", ".join(
+            f"{first!r} / {second!r}"
+            for first, second in duplicates
+        )
+        raise ValueError(
+            f"Localized {part_of_speech} columns are not unique for locale "
+            f"{locale!r}: {duplicate_text}"
+        )
+
+
 def localize_noun_column(column, labels):
     if column in ("singular", "plural"):
         return labels["number"][column]
@@ -145,4 +167,5 @@ def localize_dataframe(df, locale, part_of_speech):
     columns = [labels["meaning"]] + [
         column for column in result.columns if column != labels["meaning"]
     ]
+    _assert_unique_columns(columns, locale, part_of_speech)
     return result[columns]
