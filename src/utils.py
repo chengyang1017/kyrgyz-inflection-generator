@@ -34,12 +34,74 @@ def _resolve_path(path):
     return ROOT_DIR / path if not path.is_absolute() else path
 
 
+def _normalize_gloss_values(value):
+    if value is None:
+        return []
+
+    values = value if isinstance(value, list) else [value]
+
+    return [
+        str(item).strip()
+        for item in values
+        if item is not None and str(item).strip()
+    ]
+
+
+def _project_sense_meaning(item, locale):
+    senses = item.get("senses")
+
+    if not isinstance(senses, list):
+        return None
+
+    values = []
+
+    for sense in senses:
+        if not isinstance(sense, dict):
+            continue
+
+        glosses = sense.get("glosses", {})
+        if not isinstance(glosses, dict):
+            continue
+
+        values.extend(
+            _normalize_gloss_values(
+                glosses.get(locale)
+            )
+        )
+
+    separator = chr(0xFF1B) if locale == "zh" else "; "
+    return separator.join(values)
+
+
 def _meaning_fields(item):
-    meanings = item.get("meanings", {}) if isinstance(item, dict) else {}
-    return {
-        f"meaning_{locale}": meanings.get(locale, item.get(f"meaning_{locale}", ""))
-        for locale in SUPPORTED_MEANING_LOCALES
-    }
+    if not isinstance(item, dict):
+        return {
+            f"meaning_{locale}": ""
+            for locale in SUPPORTED_MEANING_LOCALES
+        }
+
+    meanings = item.get("meanings", {})
+    if not isinstance(meanings, dict):
+        meanings = {}
+
+    result = {}
+
+    for locale in SUPPORTED_MEANING_LOCALES:
+        projected = _project_sense_meaning(
+            item,
+            locale,
+        )
+
+        if projected is not None:
+            result[f"meaning_{locale}"] = projected
+            continue
+
+        result[f"meaning_{locale}"] = meanings.get(
+            locale,
+            item.get(f"meaning_{locale}", ""),
+        )
+
+    return result
 
 
 def load_nouns():
@@ -55,10 +117,15 @@ def load_nouns():
             nouns = []
             for item in data:
                 if isinstance(item, dict):
-                    nouns.append({
+                    noun = {
                         "singular": item.get("singular", ""),
                         **_meaning_fields(item),
-                    })
+                    }
+
+                    if isinstance(item.get("senses"), list):
+                        noun["senses"] = item["senses"]
+
+                    nouns.append(noun)
             return nouns
 
     if txt_path.exists():
@@ -94,11 +161,16 @@ def load_verbs():
             verbs = []
             for item in data:
                 if isinstance(item, dict):
-                    verbs.append({
+                    verb = {
                         "infinitive": item.get("infinitive", ""),
                         "stem": item.get("stem", ""),
                         **_meaning_fields(item),
-                    })
+                    }
+
+                    if isinstance(item.get("senses"), list):
+                        verb["senses"] = item["senses"]
+
+                    verbs.append(verb)
             return verbs
 
     if txt_path.exists():
