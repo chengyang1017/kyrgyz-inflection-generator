@@ -366,3 +366,40 @@ def test_canonical_exports_json_and_sqlite(tmp_path):
         "sg",
         "locative",
     )
+
+
+def test_canonical_sqlite_has_dictionary_search_indexes(
+    tmp_path,
+):
+    import sqlite3
+
+    from canonical import export_canonical_sqlite
+
+    data = {
+        "lexemes": [],
+        "senses": [],
+        "glosses": [],
+        "noun_forms": [],
+        "verb_forms": [],
+    }
+
+    db_path = export_canonical_sqlite(
+        data,
+        tmp_path / "dictionary.db",
+    )
+
+    with sqlite3.connect(db_path) as conn:
+        indexes = {
+            row[0]
+            for row in conn.execute(
+                """
+                SELECT name
+                FROM sqlite_master
+                WHERE type = 'index'
+                """
+            )
+        }
+
+    assert "idx_lexemes_language_lemma" in indexes
+    assert "idx_noun_forms_form" in indexes
+    assert "idx_verb_forms_form" in indexes

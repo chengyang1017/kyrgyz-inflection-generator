@@ -1,4 +1,4 @@
-﻿import json
+import json
 import sqlite3
 from pathlib import Path
 
@@ -595,6 +595,11 @@ def export_canonical_sqlite(data, output_path):
         )
 
         conn.execute(
+            "CREATE INDEX idx_lexemes_language_lemma "
+            "ON lexemes(language_code, lemma)"
+        )
+
+        conn.execute(
             "CREATE INDEX idx_senses_lexeme "
             "ON senses(lexeme_id)"
         )
@@ -615,6 +620,11 @@ def export_canonical_sqlite(data, output_path):
         )
 
         conn.execute(
+            "CREATE INDEX idx_noun_forms_form "
+            "ON noun_forms(form)"
+        )
+
+        conn.execute(
             """
             CREATE INDEX idx_noun_forms_features
             ON noun_forms(
@@ -630,6 +640,11 @@ def export_canonical_sqlite(data, output_path):
         conn.execute(
             "CREATE INDEX idx_verb_forms_lexeme "
             "ON verb_forms(lexeme_id)"
+        )
+
+        conn.execute(
+            "CREATE INDEX idx_verb_forms_form "
+            "ON verb_forms(form)"
         )
 
         conn.execute(
