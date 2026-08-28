@@ -1,38 +1,686 @@
 [
-  {"infinitive": "баруу", "stem": "бар", "meanings": {"zh": "去", "en": "go", "ru": "идти"}},
-  {"infinitive": "келүү", "stem": "кел", "meanings": {"zh": "来", "en": "come", "ru": "приходить"}},
-  {"infinitive": "окуу", "stem": "оку", "meanings": {"zh": "读；学习", "en": "read; study", "ru": "читать; учиться"}},
-  {"infinitive": "жазуу", "stem": "жаз", "meanings": {"zh": "写", "en": "write", "ru": "писать"}},
-  {"infinitive": "сүйлөө", "stem": "сүйлө", "meanings": {"zh": "说话", "en": "speak", "ru": "говорить"}},
-  {"infinitive": "айтуу", "stem": "айт", "meanings": {"zh": "说；告诉", "en": "say; tell", "ru": "сказать; рассказать"}},
-  {"infinitive": "угуу", "stem": "ук", "meanings": {"zh": "听见；听", "en": "hear; listen", "ru": "слышать; слушать"}},
-  {"infinitive": "көрүү", "stem": "көр", "meanings": {"zh": "看见；看", "en": "see; watch", "ru": "видеть; смотреть"}},
-  {"infinitive": "билүү", "stem": "бил", "meanings": {"zh": "知道", "en": "know", "ru": "знать"}},
-  {"infinitive": "алуу", "stem": "ал", "meanings": {"zh": "拿；得到；买", "en": "take; get; buy", "ru": "брать; получать; покупать"}},
-  {"infinitive": "берүү", "stem": "бер", "meanings": {"zh": "给", "en": "give", "ru": "давать"}},
-  {"infinitive": "кылуу", "stem": "кыл", "meanings": {"zh": "做", "en": "do; make", "ru": "делать"}},
-  {"infinitive": "иштөө", "stem": "иште", "meanings": {"zh": "工作", "en": "work", "ru": "работать"}},
-  {"infinitive": "жашоо", "stem": "жаша", "meanings": {"zh": "生活；居住", "en": "live; reside", "ru": "жить"}},
-  {"infinitive": "отуруу", "stem": "отур", "meanings": {"zh": "坐", "en": "sit", "ru": "сидеть"}},
-  {"infinitive": "туруу", "stem": "тур", "meanings": {"zh": "站；起床", "en": "stand; get up", "ru": "стоять; вставать"}},
-  {"infinitive": "жүрүү", "stem": "жүр", "meanings": {"zh": "走；行走", "en": "walk; go", "ru": "ходить; идти"}},
-  {"infinitive": "чуркоо", "stem": "чурка", "meanings": {"zh": "跑", "en": "run", "ru": "бегать"}},
-  {"infinitive": "ойноо", "stem": "ойно", "meanings": {"zh": "玩", "en": "play", "ru": "играть"}},
-  {"infinitive": "күлүү", "stem": "күл", "meanings": {"zh": "笑", "en": "laugh", "ru": "смеяться"}},
-  {"infinitive": "ыйлоо", "stem": "ыйла", "meanings": {"zh": "哭", "en": "cry", "ru": "плакать"}},
-  {"infinitive": "ичүү", "stem": "ич", "meanings": {"zh": "喝", "en": "drink", "ru": "пить"}},
-  {"infinitive": "жеш", "stem": "же", "meanings": {"zh": "吃", "en": "eat", "ru": "есть"}},
-  {"infinitive": "үйрөнүү", "stem": "үйрөн", "meanings": {"zh": "学习；学会", "en": "learn", "ru": "учиться; научиться"}},
-  {"infinitive": "үйрөтүү", "stem": "үйрөт", "meanings": {"zh": "教", "en": "teach", "ru": "учить; обучать"}},
-  {"infinitive": "түшүнүү", "stem": "түшүн", "meanings": {"zh": "理解", "en": "understand", "ru": "понимать"}},
-  {"infinitive": "сүйүү", "stem": "сүй", "meanings": {"zh": "爱；喜欢", "en": "love; like", "ru": "любить; нравиться"}},
-  {"infinitive": "ачуу", "stem": "ач", "meanings": {"zh": "打开", "en": "open", "ru": "открывать"}},
-  {"infinitive": "жабуу", "stem": "жап", "meanings": {"zh": "关闭", "en": "close", "ru": "закрывать"}},
-  {"infinitive": "кирүү", "stem": "кир", "meanings": {"zh": "进入", "en": "enter", "ru": "входить"}},
-  {"infinitive": "чыгуу", "stem": "чык", "meanings": {"zh": "出去；出来", "en": "go out; come out", "ru": "выходить"}},
-  {"infinitive": "табуу", "stem": "тап", "meanings": {"zh": "找到", "en": "find", "ru": "находить"}},
-  {"infinitive": "жоготуу", "stem": "жогот", "meanings": {"zh": "失去；弄丢", "en": "lose", "ru": "терять"}},
-  {"infinitive": "күтүү", "stem": "күт", "meanings": {"zh": "等待", "en": "wait", "ru": "ждать"}},
-  {"infinitive": "баштоо", "stem": "башта", "meanings": {"zh": "开始", "en": "start; begin", "ru": "начинать"}},
-  {"infinitive": "бүтүрүү", "stem": "бүтүр", "meanings": {"zh": "完成；结束", "en": "finish; complete", "ru": "заканчивать; завершать"}}
+  {
+    "infinitive": "баруу",
+    "stem": "бар",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "去"
+          ],
+          "en": [
+            "go"
+          ],
+          "ru": [
+            "идти"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "келүү",
+    "stem": "кел",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "来"
+          ],
+          "en": [
+            "come"
+          ],
+          "ru": [
+            "приходить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "окуу",
+    "stem": "оку",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "读；学习"
+          ],
+          "en": [
+            "read; study"
+          ],
+          "ru": [
+            "читать; учиться"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жазуу",
+    "stem": "жаз",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "写"
+          ],
+          "en": [
+            "write"
+          ],
+          "ru": [
+            "писать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "сүйлөө",
+    "stem": "сүйлө",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "说话"
+          ],
+          "en": [
+            "speak"
+          ],
+          "ru": [
+            "говорить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "айтуу",
+    "stem": "айт",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "说；告诉"
+          ],
+          "en": [
+            "say; tell"
+          ],
+          "ru": [
+            "сказать; рассказать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "угуу",
+    "stem": "ук",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "听见；听"
+          ],
+          "en": [
+            "hear; listen"
+          ],
+          "ru": [
+            "слышать; слушать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "көрүү",
+    "stem": "көр",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "看见；看"
+          ],
+          "en": [
+            "see; watch"
+          ],
+          "ru": [
+            "видеть; смотреть"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "билүү",
+    "stem": "бил",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "知道"
+          ],
+          "en": [
+            "know"
+          ],
+          "ru": [
+            "знать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "алуу",
+    "stem": "ал",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "拿；得到；买"
+          ],
+          "en": [
+            "take; get; buy"
+          ],
+          "ru": [
+            "брать; получать; покупать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "берүү",
+    "stem": "бер",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "给"
+          ],
+          "en": [
+            "give"
+          ],
+          "ru": [
+            "давать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "кылуу",
+    "stem": "кыл",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "做"
+          ],
+          "en": [
+            "do; make"
+          ],
+          "ru": [
+            "делать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "иштөө",
+    "stem": "иште",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "工作"
+          ],
+          "en": [
+            "work"
+          ],
+          "ru": [
+            "работать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жашоо",
+    "stem": "жаша",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "生活；居住"
+          ],
+          "en": [
+            "live; reside"
+          ],
+          "ru": [
+            "жить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "отуруу",
+    "stem": "отур",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "坐"
+          ],
+          "en": [
+            "sit"
+          ],
+          "ru": [
+            "сидеть"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "туруу",
+    "stem": "тур",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "站；起床"
+          ],
+          "en": [
+            "stand; get up"
+          ],
+          "ru": [
+            "стоять; вставать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жүрүү",
+    "stem": "жүр",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "走；行走"
+          ],
+          "en": [
+            "walk; go"
+          ],
+          "ru": [
+            "ходить; идти"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "чуркоо",
+    "stem": "чурка",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "跑"
+          ],
+          "en": [
+            "run"
+          ],
+          "ru": [
+            "бегать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "ойноо",
+    "stem": "ойно",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "玩"
+          ],
+          "en": [
+            "play"
+          ],
+          "ru": [
+            "играть"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "күлүү",
+    "stem": "күл",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "笑"
+          ],
+          "en": [
+            "laugh"
+          ],
+          "ru": [
+            "смеяться"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "ыйлоо",
+    "stem": "ыйла",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "哭"
+          ],
+          "en": [
+            "cry"
+          ],
+          "ru": [
+            "плакать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "ичүү",
+    "stem": "ич",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "喝"
+          ],
+          "en": [
+            "drink"
+          ],
+          "ru": [
+            "пить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жеш",
+    "stem": "же",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "吃"
+          ],
+          "en": [
+            "eat"
+          ],
+          "ru": [
+            "есть"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "үйрөнүү",
+    "stem": "үйрөн",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "学习；学会"
+          ],
+          "en": [
+            "learn"
+          ],
+          "ru": [
+            "учиться; научиться"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "үйрөтүү",
+    "stem": "үйрөт",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "教"
+          ],
+          "en": [
+            "teach"
+          ],
+          "ru": [
+            "учить; обучать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "түшүнүү",
+    "stem": "түшүн",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "理解"
+          ],
+          "en": [
+            "understand"
+          ],
+          "ru": [
+            "понимать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "сүйүү",
+    "stem": "сүй",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "爱；喜欢"
+          ],
+          "en": [
+            "love; like"
+          ],
+          "ru": [
+            "любить; нравиться"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "ачуу",
+    "stem": "ач",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "打开"
+          ],
+          "en": [
+            "open"
+          ],
+          "ru": [
+            "открывать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жабуу",
+    "stem": "жап",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "关闭"
+          ],
+          "en": [
+            "close"
+          ],
+          "ru": [
+            "закрывать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "кирүү",
+    "stem": "кир",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "进入"
+          ],
+          "en": [
+            "enter"
+          ],
+          "ru": [
+            "входить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "чыгуу",
+    "stem": "чык",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "出去；出来"
+          ],
+          "en": [
+            "go out; come out"
+          ],
+          "ru": [
+            "выходить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "табуу",
+    "stem": "тап",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "找到"
+          ],
+          "en": [
+            "find"
+          ],
+          "ru": [
+            "находить"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "жоготуу",
+    "stem": "жогот",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "失去；弄丢"
+          ],
+          "en": [
+            "lose"
+          ],
+          "ru": [
+            "терять"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "күтүү",
+    "stem": "күт",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "等待"
+          ],
+          "en": [
+            "wait"
+          ],
+          "ru": [
+            "ждать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "баштоо",
+    "stem": "башта",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "开始"
+          ],
+          "en": [
+            "start; begin"
+          ],
+          "ru": [
+            "начинать"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "infinitive": "бүтүрүү",
+    "stem": "бүтүр",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "完成；结束"
+          ],
+          "en": [
+            "finish; complete"
+          ],
+          "ru": [
+            "заканчивать; завершать"
+          ]
+        }
+      }
+    ]
+  }
 ]

@@ -157,6 +157,17 @@ def localize_dataframe(df, locale, part_of_speech):
     if meaning_columns:
         result = result.drop(columns=meaning_columns)
 
+    structured_metadata_columns = [
+        column
+        for column in ("senses",)
+        if column in result.columns
+    ]
+
+    if structured_metadata_columns:
+        result = result.drop(
+            columns=structured_metadata_columns
+        )
+
     localizer = localize_noun_column if part_of_speech == "noun" else localize_verb_column
     result = result.rename(columns={
         column: localizer(column, labels)

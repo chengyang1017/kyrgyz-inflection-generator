@@ -170,3 +170,32 @@ def test_dataframe_selects_requested_meaning_and_drops_other_meanings():
     assert "Значение" in result.columns
     assert result.at[0, "Значение"] == "книга"
     assert not any(column.startswith("meaning_") for column in result.columns)
+
+
+def test_dataframe_drops_structured_lexical_metadata_from_presentation():
+    df = pd.DataFrame([
+        {
+            "meaning_zh": "书",
+            "meaning_en": "book",
+            "meaning_ru": "книга",
+            "singular": "китеп",
+            "senses": [
+                {
+                    "glosses": {
+                        "zh": ["书"],
+                        "en": ["book"],
+                    }
+                }
+            ],
+        }
+    ])
+
+    result = localize_dataframe(
+        df,
+        "en",
+        "noun",
+    )
+
+    assert "senses" not in result.columns
+    assert "Meaning" in result.columns
+    assert result.at[0, "Meaning"] == "book"

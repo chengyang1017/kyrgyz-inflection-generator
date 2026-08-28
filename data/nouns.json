@@ -1,66 +1,290 @@
 [
   {
     "singular": "китеп",
-    "meanings": {"zh": "书", "en": "book", "ru": "книга"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "书"
+          ],
+          "en": [
+            "book"
+          ],
+          "ru": [
+            "книга"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "бала",
-    "meanings": {"zh": "孩子", "en": "child", "ru": "ребёнок"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "孩子"
+          ],
+          "en": [
+            "child"
+          ],
+          "ru": [
+            "ребёнок"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "үй",
-    "meanings": {"zh": "房子", "en": "house", "ru": "дом"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "房子"
+          ],
+          "en": [
+            "house"
+          ],
+          "ru": [
+            "дом"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "бор",
-    "meanings": {"zh": "粉笔", "en": "chalk", "ru": "мел"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "粉笔"
+          ],
+          "en": [
+            "chalk"
+          ],
+          "ru": [
+            "мел"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "сумка",
-    "meanings": {"zh": "书包；包", "en": "bag", "ru": "сумка"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "书包；包"
+          ],
+          "en": [
+            "bag"
+          ],
+          "ru": [
+            "сумка"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "мугалим",
-    "meanings": {"zh": "老师", "en": "teacher", "ru": "учитель"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "老师"
+          ],
+          "en": [
+            "teacher"
+          ],
+          "ru": [
+            "учитель"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "тоо",
-    "meanings": {"zh": "山", "en": "mountain", "ru": "гора"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "山"
+          ],
+          "en": [
+            "mountain"
+          ],
+          "ru": [
+            "гора"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "өкмөт",
-    "meanings": {"zh": "政府", "en": "government", "ru": "правительство"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "政府"
+          ],
+          "en": [
+            "government"
+          ],
+          "ru": [
+            "правительство"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "ыр",
-    "meanings": {"zh": "歌曲", "en": "song", "ru": "песня"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "歌曲"
+          ],
+          "en": [
+            "song"
+          ],
+          "ru": [
+            "песня"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "акын",
-    "meanings": {"zh": "诗人", "en": "poet", "ru": "поэт"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "诗人"
+          ],
+          "en": [
+            "poet"
+          ],
+          "ru": [
+            "поэт"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "кийим",
-    "meanings": {"zh": "衣服", "en": "clothing", "ru": "одежда"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "衣服"
+          ],
+          "en": [
+            "clothing"
+          ],
+          "ru": [
+            "одежда"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "токтом",
-    "meanings": {"zh": "决定", "en": "decision", "ru": "решение"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "决定"
+          ],
+          "en": [
+            "decision"
+          ],
+          "ru": [
+            "решение"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "конок",
-    "meanings": {"zh": "客人", "en": "guest", "ru": "гость"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "客人"
+          ],
+          "en": [
+            "guest"
+          ],
+          "ru": [
+            "гость"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "көл",
-    "meanings": {"zh": "湖", "en": "lake", "ru": "озеро"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "湖"
+          ],
+          "en": [
+            "lake"
+          ],
+          "ru": [
+            "озеро"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "студент",
-    "meanings": {"zh": "学生", "en": "student", "ru": "студент"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "学生"
+          ],
+          "en": [
+            "student"
+          ],
+          "ru": [
+            "студент"
+          ]
+        }
+      }
+    ]
   },
   {
     "singular": "шаар",
-    "meanings": {"zh": "城市", "en": "city", "ru": "город"}
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "城市"
+          ],
+          "en": [
+            "city"
+          ],
+          "ru": [
+            "город"
+          ]
+        }
+      }
+    ]
   }
 ]
