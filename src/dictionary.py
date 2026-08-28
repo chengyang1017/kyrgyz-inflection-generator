@@ -1,13 +1,57 @@
 from lexicon import search_lexicon
 
 
+VERB_FEATURE_KEYS = (
+    "form_type",
+    "tense",
+    "person",
+    "negative",
+)
+
+NOUN_FEATURE_KEYS = (
+    "number",
+    "possessive",
+    "case",
+    "interrogative",
+    "special",
+)
+
+
+def _build_analysis(
+    form,
+    part_of_speech,
+):
+    analysis = {
+        "text": form.get("form", ""),
+        "key": form.get("canonical_key", ""),
+        "label": form.get("label", ""),
+    }
+
+    if part_of_speech == "verb":
+        feature_keys = VERB_FEATURE_KEYS
+    elif part_of_speech == "noun":
+        feature_keys = NOUN_FEATURE_KEYS
+    else:
+        feature_keys = ()
+
+    features = {
+        key: form[key]
+        for key in feature_keys
+        if key in form
+    }
+
+    if features:
+        analysis["features"] = features
+
+    return analysis
+
+
 def build_dictionary_search_result(search_result):
     analyses = [
-        {
-            "text": form.get("form", ""),
-            "key": form.get("canonical_key", ""),
-            "label": form.get("label", ""),
-        }
+        _build_analysis(
+            form,
+            search_result["part_of_speech"],
+        )
         for form in search_result.get(
             "matched_forms",
             [],

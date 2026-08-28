@@ -259,3 +259,81 @@ def test_search_dictionary_returns_empty_list_when_not_found():
     )
 
     assert results == []
+
+
+def test_dictionary_analysis_exposes_verb_morphology_features():
+    from dictionary import build_dictionary_search_result
+
+    source = _search_result()
+
+    source["matched_forms"][0].update(
+        {
+            "form_type": "finite",
+            "tense": "past",
+            "person": "1sg",
+            "negative": False,
+        }
+    )
+
+    result = build_dictionary_search_result(source)
+
+    analysis = result["match"]["analyses"][0]
+
+    assert analysis["features"] == {
+        "form_type": "finite",
+        "tense": "past",
+        "person": "1sg",
+        "negative": False,
+    }
+
+
+def test_dictionary_analysis_exposes_noun_morphology_features():
+    from dictionary import build_dictionary_search_result
+
+    source = {
+        "id": "noun:\u043a\u0438\u0442\u0435\u043f",
+        "language_code": "ky",
+        "part_of_speech": "noun",
+        "lemma": "\u043a\u0438\u0442\u0435\u043f",
+        "primary_match": "form",
+        "match_types": ["form"],
+        "senses": [
+            {
+                "sense_no": 1,
+                "glosses": ["book"],
+            },
+        ],
+        "matched_forms": [
+            {
+                "lexeme_id": (
+                    "noun:\u043a\u0438\u0442\u0435\u043f"
+                ),
+                "form": (
+                    "\u043a\u0438\u0442\u0435\u043f\u0442\u0435"
+                ),
+                "canonical_key": "singular_locative",
+                "label": (
+                    "\u5355\u6570 "
+                    "\u00b7 \u4f4d\u683c"
+                ),
+                "number": "sg",
+                "possessive": None,
+                "case": "locative",
+                "interrogative": False,
+                "special": False,
+            },
+        ],
+        "forms": [],
+    }
+
+    result = build_dictionary_search_result(source)
+
+    analysis = result["match"]["analyses"][0]
+
+    assert analysis["features"] == {
+        "number": "sg",
+        "possessive": None,
+        "case": "locative",
+        "interrogative": False,
+        "special": False,
+    }
