@@ -245,7 +245,7 @@ Every run also regenerates `output/canonical/` once.
 - Removed tracked Python caches and generated artifacts.
 - Added root `.gitignore` and dependency files.
 
-### Phase 3 — in progress
+### Phase 3 — completed
 
 - Added normalized form records (`form + features`).
 - Normalized grammatical person features to `1sg` / `2sg` / `3sg` / plural equivalents.
