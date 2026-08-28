@@ -1,4 +1,6 @@
 from lexicon import search_lexicon
+from i18n import localize_form_key
+from sqlite_lexicon import search_lexicon_sqlite
 
 
 VERB_FEATURE_KEYS = (
@@ -96,6 +98,39 @@ def build_dictionary_search_result(search_result):
     }
 
 
+def _localize_matched_forms(search_results, form_locale):
+    if not form_locale:
+        return search_results
+
+    localized_results = []
+
+    for result in search_results:
+        matched_forms = result.get("matched_forms")
+
+        if not matched_forms:
+            localized_results.append(result)
+            continue
+
+        localized_results.append({
+            **result,
+            "matched_forms": [
+                {
+                    **form,
+                    "label": localize_form_key(
+                        form.get("canonical_key", ""),
+                        part_of_speech=result[
+                            "part_of_speech"
+                        ],
+                        locale=form_locale,
+                    ),
+                }
+                for form in matched_forms
+            ],
+        })
+
+    return localized_results
+
+
 
 def search_dictionary(
     data,
@@ -117,4 +152,31 @@ def search_dictionary(
     return [
         build_dictionary_search_result(result)
         for result in search_results
+    ]
+
+
+def search_dictionary_sqlite(
+    db_path,
+    query_text,
+    query_language,
+    lexeme_language,
+    result_gloss_language,
+    form_locale=None,
+):
+    search_results = search_lexicon_sqlite(
+        db_path,
+        query_text=query_text,
+        query_language=query_language,
+        lexeme_language=lexeme_language,
+        result_gloss_language=result_gloss_language,
+    )
+
+    localized_results = _localize_matched_forms(
+        search_results,
+        form_locale,
+    )
+
+    return [
+        build_dictionary_search_result(result)
+        for result in localized_results
     ]
