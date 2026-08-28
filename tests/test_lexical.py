@@ -320,3 +320,92 @@ def test_loaders_preserve_explicit_senses_and_build_legacy_meaning_columns(
 
     assert loaded_verbs[0]["meaning_zh"] == "拿；得到"
     assert loaded_verbs[0]["meaning_en"] == "take; get"
+
+
+def test_real_source_lexicon_uses_normalized_senses_only():
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+
+    for filename in ("nouns.json", "verbs.json"):
+        entries = json.loads(
+            (root / "data" / filename).read_text(
+                encoding="utf-8"
+            )
+        )
+
+        for entry in entries:
+            assert "meanings" not in entry
+
+            senses = entry.get("senses")
+
+            assert isinstance(senses, list)
+            assert senses
+
+            for sense in senses:
+                assert isinstance(sense, dict)
+
+                glosses = sense.get("glosses")
+
+                assert isinstance(glosses, dict)
+                assert glosses
+
+                for language_code, values in glosses.items():
+                    assert isinstance(language_code, str)
+                    assert language_code.strip()
+
+                    assert isinstance(values, list)
+                    assert values
+
+                    assert all(
+                        isinstance(value, str)
+                        and value.strip()
+                        for value in values
+                    )
+
+                    assert all(
+                        ";" not in value
+                        and chr(0xFF1B) not in value
+                        for value in values
+                    )
+
+
+def test_verified_turuu_senses_are_separate():
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+
+    verbs = json.loads(
+        (root / "data" / "verbs.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    infinitive = "\u0442\u0443\u0440\u0443\u0443"
+
+    verb = next(
+        item
+        for item in verbs
+        if item.get("infinitive") == infinitive
+    )
+
+    assert verb["senses"] == [
+        {
+            "glosses": {
+                "zh": ["\u7ad9"],
+                "en": ["stand"],
+                "ru": [
+                    "\u0441\u0442\u043e\u044f\u0442\u044c"
+                ],
+            }
+        },
+        {
+            "glosses": {
+                "zh": ["\u8d77\u5e8a"],
+                "en": ["get up"],
+                "ru": [
+                    "\u0432\u0441\u0442\u0430\u0432\u0430\u0442\u044c"
+                ],
+            }
+        },
+    ]
