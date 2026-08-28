@@ -417,3 +417,122 @@ def test_sqlite_search_by_gloss_returns_empty_list_when_missing(
     )
 
     assert results == []
+
+
+def test_sqlite_search_lexicon_finds_lemma(
+    tmp_path,
+):
+    from canonical import export_canonical_sqlite
+    from sqlite_lexicon import search_lexicon_sqlite
+
+    db_path = export_canonical_sqlite(
+        _sample_data(),
+        tmp_path / "dictionary.db",
+    )
+
+    results = search_lexicon_sqlite(
+        db_path,
+        query_text="\u0430\u043b\u0443\u0443",
+        query_language="ky",
+        lexeme_language="ky",
+        result_gloss_language="en",
+    )
+
+    assert len(results) == 1
+
+    result = results[0]
+
+    assert result["lemma"] == (
+        "\u0430\u043b\u0443\u0443"
+    )
+    assert result["primary_match"] == "lemma"
+    assert result["match_types"] == [
+        "lemma",
+        "form",
+    ]
+
+
+def test_sqlite_search_lexicon_finds_inflected_form(
+    tmp_path,
+):
+    from canonical import export_canonical_sqlite
+    from sqlite_lexicon import search_lexicon_sqlite
+
+    db_path = export_canonical_sqlite(
+        _sample_data(),
+        tmp_path / "dictionary.db",
+    )
+
+    results = search_lexicon_sqlite(
+        db_path,
+        query_text="\u0430\u043b\u0434\u044b\u043c",
+        query_language="ky",
+        lexeme_language="ky",
+        result_gloss_language="en",
+    )
+
+    assert len(results) == 1
+
+    result = results[0]
+
+    assert result["lemma"] == (
+        "\u0430\u043b\u0443\u0443"
+    )
+    assert result["primary_match"] == "form"
+    assert result["match_types"] == ["form"]
+
+    assert result["matched_forms"][0][
+        "canonical_key"
+    ] == "past_men"
+
+
+def test_sqlite_search_lexicon_finds_gloss(
+    tmp_path,
+):
+    from canonical import export_canonical_sqlite
+    from sqlite_lexicon import search_lexicon_sqlite
+
+    db_path = export_canonical_sqlite(
+        _sample_data(),
+        tmp_path / "dictionary.db",
+    )
+
+    results = search_lexicon_sqlite(
+        db_path,
+        query_text="buy",
+        query_language="en",
+        lexeme_language="ky",
+        result_gloss_language="en",
+    )
+
+    assert len(results) == 1
+
+    result = results[0]
+
+    assert result["lemma"] == (
+        "\u0430\u043b\u0443\u0443"
+    )
+    assert result["primary_match"] == "gloss"
+    assert result["match_types"] == ["gloss"]
+
+
+def test_sqlite_search_lexicon_returns_empty_list_when_missing(
+    tmp_path,
+):
+    from canonical import export_canonical_sqlite
+    from sqlite_lexicon import search_lexicon_sqlite
+
+    db_path = export_canonical_sqlite(
+        _sample_data(),
+        tmp_path / "dictionary.db",
+    )
+
+    results = search_lexicon_sqlite(
+        db_path,
+        query_text="missing",
+        query_language="en",
+        lexeme_language="ky",
+        result_gloss_language="en",
+    )
+
+    assert results == []

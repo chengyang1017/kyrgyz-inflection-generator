@@ -375,3 +375,135 @@ def search_lexemes_by_gloss_sqlite(
             )
             for lexeme in lexeme_rows
         ]
+
+
+def search_lexicon_sqlite(
+    db_path,
+    query_text,
+    query_language,
+    lexeme_language,
+    result_gloss_language,
+):
+    normalized_query = str(query_text).strip()
+
+    if not normalized_query:
+        return []
+
+    match_order = (
+        "lemma",
+        "form",
+        "gloss",
+    )
+
+    results_by_id = {}
+
+    def add_result(
+        result,
+        match_type,
+    ):
+        if result is None:
+            return
+
+        lexeme_id = result["id"]
+
+        if lexeme_id not in results_by_id:
+            results_by_id[lexeme_id] = {
+                **result,
+                "primary_match": match_type,
+                "match_types": [match_type],
+            }
+            return
+
+        existing = results_by_id[lexeme_id]
+
+        if match_type not in existing["match_types"]:
+            existing["match_types"].append(
+                match_type
+            )
+
+        if "matched_forms" in result:
+            existing_forms = existing.setdefault(
+                "matched_forms",
+                [],
+            )
+
+            for form in result["matched_forms"]:
+                if form not in existing_forms:
+                    existing_forms.append(form)
+
+    # 1. Exact lemma lookup.
+    if query_language == lexeme_language:
+        lemma_result = lookup_lexeme_sqlite(
+            db_path,
+            language_code=lexeme_language,
+            lemma=normalized_query,
+            gloss_language=result_gloss_language,
+        )
+
+        add_result(
+            lemma_result,
+            "lemma",
+        )
+
+    # 2. Surface / inflected-form lookup.
+    if query_language == lexeme_language:
+        form_results = (
+            search_lexemes_by_form_sqlite(
+                db_path,
+                form_text=normalized_query,
+                language_code=lexeme_language,
+                result_gloss_language=(
+                    result_gloss_language
+                ),
+            )
+        )
+
+        for result in form_results:
+            add_result(
+                result,
+                "form",
+            )
+
+    # 3. Gloss / translation lookup.
+    gloss_results = (
+        search_lexemes_by_gloss_sqlite(
+            db_path,
+            query_language=query_language,
+            query_text=normalized_query,
+            lexeme_language=lexeme_language,
+            result_gloss_language=(
+                result_gloss_language
+            ),
+        )
+    )
+
+    for result in gloss_results:
+        add_result(
+            result,
+            "gloss",
+        )
+
+    results = list(
+        results_by_id.values()
+    )
+
+    for result in results:
+        result["match_types"].sort(
+            key=match_order.index
+        )
+
+        result["primary_match"] = (
+            result["match_types"][0]
+        )
+
+    results.sort(
+        key=lambda result: (
+            match_order.index(
+                result["primary_match"]
+            ),
+            result["lemma"].casefold(),
+            result["id"],
+        )
+    )
+
+    return results
