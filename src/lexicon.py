@@ -1,4 +1,7 @@
-﻿def lookup_lexeme(
+from i18n import localize_form_key
+
+
+def lookup_lexeme(
     data,
     language_code,
     lemma,
@@ -191,6 +194,7 @@ def search_lexicon(
     query_language,
     lexeme_language,
     result_gloss_language,
+    form_locale=None,
 ):
     normalized_query = str(query_text).strip()
 
@@ -278,6 +282,27 @@ def search_lexicon(
         )
 
     results = list(results_by_id.values())
+
+    if form_locale:
+        for result in results:
+            matched_forms = result.get("matched_forms")
+
+            if not matched_forms:
+                continue
+
+            result["matched_forms"] = [
+                {
+                    **form,
+                    "label": localize_form_key(
+                        form.get("canonical_key", ""),
+                        part_of_speech=result[
+                            "part_of_speech"
+                        ],
+                        locale=form_locale,
+                    ),
+                }
+                for form in matched_forms
+            ]
 
     # Keep match metadata deterministic even if the
     # implementation order changes later.

@@ -180,3 +180,25 @@ def localize_dataframe(df, locale, part_of_speech):
     ]
     _assert_unique_columns(columns, locale, part_of_speech)
     return result[columns]
+
+
+def localize_form_key(
+    canonical_key,
+    part_of_speech,
+    locale,
+):
+    labels = load_locale(locale)
+
+    if part_of_speech == "noun":
+        return localize_noun_column(
+            canonical_key,
+            labels,
+        )
+
+    if part_of_speech == "verb":
+        return localize_verb_column(
+            canonical_key,
+            labels,
+        )
+
+    return canonical_key

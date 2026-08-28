@@ -199,3 +199,33 @@ def test_dataframe_drops_structured_lexical_metadata_from_presentation():
     assert "senses" not in result.columns
     assert "Meaning" in result.columns
     assert result.at[0, "Meaning"] == "book"
+
+
+def test_localize_form_key_for_verb():
+    from i18n import localize_form_key
+
+    assert localize_form_key(
+        "past_men",
+        part_of_speech="verb",
+        locale="zh",
+    ) == "过去时 · 我"
+
+
+def test_localize_form_key_for_noun():
+    from i18n import localize_form_key
+
+    assert localize_form_key(
+        "singular_locative",
+        part_of_speech="noun",
+        locale="zh",
+    ) == "单数 · 位格"
+
+
+def test_localize_form_key_preserves_unknown_key():
+    from i18n import localize_form_key
+
+    assert localize_form_key(
+        "unknown_feature",
+        part_of_speech="verb",
+        locale="zh",
+    ) == "unknown_feature"

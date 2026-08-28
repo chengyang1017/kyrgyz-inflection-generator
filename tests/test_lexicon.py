@@ -438,3 +438,118 @@ def test_search_lexicon_returns_empty_list_when_not_found():
     )
 
     assert results == []
+
+
+def test_search_lexicon_localizes_matched_verb_form():
+    from lexicon import search_lexicon
+
+    results = search_lexicon(
+        _sample_data(),
+        query_text="\u0430\u043b\u0434\u044b\u043c",
+        query_language="ky",
+        lexeme_language="ky",
+        result_gloss_language="en",
+        form_locale="zh",
+    )
+
+    assert len(results) == 1
+
+    result = results[0]
+
+    assert result["senses"] == [
+        {
+            "sense_no": 1,
+            "glosses": ["take"],
+        },
+        {
+            "sense_no": 2,
+            "glosses": ["get"],
+        },
+        {
+            "sense_no": 3,
+            "glosses": ["buy"],
+        },
+    ]
+
+    assert result["matched_forms"][0]["canonical_key"] == (
+        "past_men"
+    )
+    assert result["matched_forms"][0]["label"] == (
+        "\u8fc7\u53bb\u65f6 \u00b7 \u6211"
+    )
+
+
+def test_search_lexicon_localizes_matched_noun_form():
+    from lexicon import search_lexicon
+
+    results = search_lexicon(
+        _sample_data(),
+        query_text="\u043a\u0438\u0442\u0435\u043f\u0442\u0435",
+        query_language="ky",
+        lexeme_language="ky",
+        result_gloss_language="en",
+        form_locale="zh",
+    )
+
+    assert len(results) == 1
+
+    result = results[0]
+
+    assert result["id"] == (
+        "noun:\u043a\u0438\u0442\u0435\u043f"
+    )
+
+    assert result["matched_forms"][0]["label"] == (
+        "\u5355\u6570 \u00b7 \u4f4d\u683c"
+    )
+
+
+def test_search_lexicon_preserves_multiple_form_analyses():
+    from lexicon import search_lexicon
+
+    data = _sample_data()
+
+    data["verb_forms"].append(
+        {
+            "lexeme_id": (
+                "verb:\u0430\u043b\u0443\u0443"
+            ),
+            "form": "\u0430\u043b\u0434\u044b\u043c",
+            "canonical_key": "future_men",
+        }
+    )
+
+    results = search_lexicon(
+        data,
+        query_text="\u0430\u043b\u0434\u044b\u043c",
+        query_language="ky",
+        lexeme_language="ky",
+        result_gloss_language="en",
+        form_locale="zh",
+    )
+
+    assert len(results) == 1
+
+    matched_forms = results[0]["matched_forms"]
+
+    assert matched_forms == [
+        {
+            "lexeme_id": (
+                "verb:\u0430\u043b\u0443\u0443"
+            ),
+            "form": "\u0430\u043b\u0434\u044b\u043c",
+            "canonical_key": "past_men",
+            "label": "\u8fc7\u53bb\u65f6 \u00b7 \u6211",
+        },
+        {
+            "lexeme_id": (
+                "verb:\u0430\u043b\u0443\u0443"
+            ),
+            "form": "\u0430\u043b\u0434\u044b\u043c",
+            "canonical_key": "future_men",
+            "label": (
+                "\u73b0\u5728\u5c06\u6765\u65f6 "
+                "\u00b7 \u6211"
+            ),
+        },
+    ]
