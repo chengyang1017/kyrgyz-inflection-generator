@@ -1,0 +1,57 @@
+name: Python CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-generate:
+    name: Test ${{ matrix.project_dir }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project_dir:
+          - kyrgyz-inflection-generator-en
+          - 吉尔吉斯语
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.project_dir }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip pytest pandas openpyxl
+
+      - name: Compile source
+        run: python -m compileall src
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Generate datasets
+        run: python src/main.py
+
+      - name: Verify generated outputs
+        run: |
+          test -f output/kyrgyz.xlsx
+          test -f output/kyrgyz.json
+          test -f output/kyrgyz.db
+          test -f output/kyrgyz_nouns.csv
+          test -f output/kyrgyz_verbs.csv
