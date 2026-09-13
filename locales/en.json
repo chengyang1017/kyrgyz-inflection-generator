@@ -1,0 +1,56 @@
+{
+  "locale_name": "English",
+  "meaning": "Meaning",
+  "number": {
+    "singular": "singular",
+    "plural": "plural"
+  },
+  "case": {
+    "locative": "locative",
+    "ablative": "ablative",
+    "genitive": "genitive",
+    "dative": "dative",
+    "accusative": "accusative",
+    "locative_modifier": "locative modifier",
+    "instrumental": "instrumental",
+    "caritive": "caritive",
+    "comparative": "comparative"
+  },
+  "possessive": {
+    "my": "my",
+    "your_singular": "your (singular)",
+    "your_polite": "your (polite)",
+    "his_her": "his/her",
+    "our": "our",
+    "your_plural": "your (plural)",
+    "your_plural_polite": "your (plural polite)",
+    "their": "their"
+  },
+  "other": {
+    "interrogative": "interrogative",
+    "special": "special",
+    "infinitive": "infinitive",
+    "stem": "stem",
+    "converb_p": "converb -p",
+    "negative_stem": "negative stem",
+    "imperative": "imperative",
+    "negative_imperative": "negative imperative"
+  },
+  "tense": {
+    "future": "present/future",
+    "present_continuous": "present continuous",
+    "past": "past",
+    "negative_past": "negative past",
+    "negative_future": "negative future"
+  },
+  "person": {
+    "men": "I",
+    "sen": "you",
+    "siz": "you (polite)",
+    "al": "he/she",
+    "biz": "we",
+    "siler": "you (plural)",
+    "sizder": "you (plural polite)",
+    "alar": "they"
+  }
+}

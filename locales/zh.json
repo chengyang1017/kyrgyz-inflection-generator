@@ -1,0 +1,56 @@
+{
+  "locale_name": "中文",
+  "meaning": "中文释义",
+  "number": {
+    "singular": "单数",
+    "plural": "复数"
+  },
+  "case": {
+    "locative": "位格",
+    "ablative": "从格",
+    "genitive": "领属格",
+    "dative": "向格",
+    "accusative": "宾格",
+    "locative_modifier": "范围格",
+    "instrumental": "工具格",
+    "caritive": "无格",
+    "comparative": "比较格"
+  },
+  "possessive": {
+    "my": "我的",
+    "your_singular": "你的",
+    "your_polite": "您的",
+    "his_her": "他/她的",
+    "our": "我们的",
+    "your_plural": "你们的",
+    "your_plural_polite": "您们的",
+    "their": "他们的"
+  },
+  "other": {
+    "interrogative": "疑问",
+    "special": "特殊",
+    "infinitive": "不定式",
+    "stem": "词干",
+    "converb_p": "副动词-p",
+    "negative_stem": "否定词干",
+    "imperative": "祈使式",
+    "negative_imperative": "否定祈使式"
+  },
+  "tense": {
+    "future": "现在将来时",
+    "present_continuous": "现在进行时",
+    "past": "过去时",
+    "negative_past": "否定过去时",
+    "negative_future": "否定将来时"
+  },
+  "person": {
+    "men": "我",
+    "sen": "你",
+    "siz": "您",
+    "al": "他/她",
+    "biz": "我们",
+    "siler": "你们",
+    "sizder": "您们",
+    "alar": "他们"
+  }
+}

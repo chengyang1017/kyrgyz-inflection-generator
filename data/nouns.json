@@ -1,0 +1,291 @@
+[
+  {
+    "singular": "китеп",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "书"
+          ],
+          "en": [
+            "book"
+          ],
+          "ru": [
+            "книга"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "бала",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "孩子"
+          ],
+          "en": [
+            "child"
+          ],
+          "ru": [
+            "ребёнок"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "үй",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "房子"
+          ],
+          "en": [
+            "house"
+          ],
+          "ru": [
+            "дом"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "бор",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "粉笔"
+          ],
+          "en": [
+            "chalk"
+          ],
+          "ru": [
+            "мел"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "сумка",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "书包",
+            "包"
+          ],
+          "en": [
+            "bag"
+          ],
+          "ru": [
+            "сумка"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "мугалим",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "老师"
+          ],
+          "en": [
+            "teacher"
+          ],
+          "ru": [
+            "учитель"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "тоо",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "山"
+          ],
+          "en": [
+            "mountain"
+          ],
+          "ru": [
+            "гора"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "өкмөт",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "政府"
+          ],
+          "en": [
+            "government"
+          ],
+          "ru": [
+            "правительство"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "ыр",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "歌曲"
+          ],
+          "en": [
+            "song"
+          ],
+          "ru": [
+            "песня"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "акын",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "诗人"
+          ],
+          "en": [
+            "poet"
+          ],
+          "ru": [
+            "поэт"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "кийим",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "衣服"
+          ],
+          "en": [
+            "clothing"
+          ],
+          "ru": [
+            "одежда"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "токтом",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "决定"
+          ],
+          "en": [
+            "decision"
+          ],
+          "ru": [
+            "решение"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "конок",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "客人"
+          ],
+          "en": [
+            "guest"
+          ],
+          "ru": [
+            "гость"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "көл",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "湖"
+          ],
+          "en": [
+            "lake"
+          ],
+          "ru": [
+            "озеро"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "студент",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "学生"
+          ],
+          "en": [
+            "student"
+          ],
+          "ru": [
+            "студент"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "singular": "шаар",
+    "senses": [
+      {
+        "glosses": {
+          "zh": [
+            "城市"
+          ],
+          "en": [
+            "city"
+          ],
+          "ru": [
+            "город"
+          ]
+        }
+      }
+    ]
+  }
+]

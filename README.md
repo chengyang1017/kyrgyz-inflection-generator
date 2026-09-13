@@ -227,12 +227,6 @@ Some forms also require stem changes, for example:
 
 ## Data Input
 
-The English implementation lives under:
-
-```text
-kyrgyz-inflection-generator-en/
-```
-
 Vocabulary data is stored under:
 
 ```text
@@ -245,57 +239,23 @@ data/
 
 JSON is preferred, while TXT can be used as a fallback.
 
-### Noun entry
-
-```json
-{
-  "singular": "китеп",
-  "meaning_zh": "书"
-}
-```
-
-### Verb entry
-
-```json
-{
-  "infinitive": "окуу",
-  "stem": "оку",
-  "meaning_zh": "读"
-}
-```
-
 ---
 
 ## Structured Output
 
-The project exports generated data in multiple formats.
+The unified generator writes canonical data plus localized datasets:
 
 ```text
 output/
-├── kyrgyz.xlsx
-├── kyrgyz.json
-├── kyrgyz.db
-├── kyrgyz_nouns.csv
-└── kyrgyz_verbs.csv
+├── canonical/
+│   ├── kyrgyz.json
+│   └── kyrgyz.db
+├── en/
+├── zh/
+└── ru/
 ```
 
-### CSV
-
-Useful for inspection, data processing, imports, and spreadsheet workflows.
-
-### JSON
-
-Useful for web applications, Flutter apps, APIs, and NLP tooling.
-
-### Excel
-
-Creates separate sheets for noun and verb datasets, making manual inspection easier.
-
-### SQLite
-
-Creates `nouns` and `verbs` tables so the generated data can be consumed directly by offline applications or dictionary prototypes.
-
-The export implementation is centralized in `src/utils.py`, where the same generated DataFrames are written to all supported formats.
+Each localized directory contains Excel, JSON, SQLite, and noun/verb CSV exports.
 
 ---
 
@@ -303,58 +263,18 @@ The export implementation is centralized in `src/utils.py`, where the same gener
 
 ```text
 kyrgyz-inflection-generator/
-│
+├── data/
+├── docs/
+├── locales/
+├── src/
+├── tests/
+├── requirements.txt
+├── requirements-dev.txt
 ├── README.md
-├── README.zh-CN.md
-│
-├── kyrgyz-inflection-generator-en/
-│   ├── data/
-│   │   ├── nouns.json
-│   │   ├── nouns.txt
-│   │   ├── verbs.json
-│   │   └── verbs.txt
-│   │
-│   ├── src/
-│   │   ├── main.py
-│   │   ├── generator.py
-│   │   ├── grammar.py
-│   │   ├── noun_generator.py
-│   │   ├── verb_grammar.py
-│   │   ├── verb_generator.py
-│   │   └── utils.py
-│   │
-│   ├── tests/
-│   └── output/
-│
-└── 吉尔吉斯语/
-    └── ...
+└── README.zh-CN.md
 ```
 
-The repository keeps both Chinese-oriented and English-oriented project material while sharing the same core idea: encode morphology as executable rules instead of manually maintaining every surface form.
-
----
-
-## Main Modules
-
-### `grammar.py`
-
-Contains noun-oriented morphology rules such as vowel harmony, suffix selection, case logic, possession, and stem changes.
-
-### `noun_generator.py`
-
-Applies noun rules to vocabulary entries and builds structured noun datasets.
-
-### `verb_grammar.py`
-
-Contains verb morphology and agreement rules.
-
-### `verb_generator.py`
-
-Applies verb rules to source verb entries.
-
-### `utils.py`
-
-Handles input loading and multi-format exports using JSON, SQLite, and Pandas.
+The multilingual and lexical-model refactors unify the project into one codebase with locale-independent morphology and reusable lexical data.
 
 ---
 
@@ -364,25 +284,25 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/chengyang1017/kyrgyz-inflection-generator.git
-cd kyrgyz-inflection-generator/kyrgyz-inflection-generator-en
+cd kyrgyz-inflection-generator
 ```
 
-Install the main dependencies:
+Install dependencies:
 
 ```bash
-pip install pandas openpyxl pytest
+pip install -r requirements-dev.txt
 ```
 
-Run the generator:
+Run the generator for every supported locale:
 
 ```bash
-python src/main.py
+python src/main.py --locale all
 ```
 
-Generated datasets are written to:
+Or generate one locale:
 
-```text
-output/
+```bash
+python src/main.py --locale en
 ```
 
 ---
@@ -395,26 +315,7 @@ Run:
 pytest
 ```
 
-The tests are intended to protect linguistic rules from regressions as the engine grows.
-
-Representative expectations include transformations such as:
-
-```text
-китеп → китептер
-китеп → китепте
-китеп → китептин
-китеп → китебим
-```
-
-and verb forms such as:
-
-```text
-оку → окуп жатамын
-оку → окубодум
-оку → окубайт
-```
-
-For this kind of project, tests are especially important because one low-level suffix rule can affect a large number of generated forms.
+The tests protect grammar rules, canonical lexical data, dictionary lookup, SQLite export, localization, and morphology behavior from regressions.
 
 ---
 
@@ -426,19 +327,7 @@ The core principle is:
 Do not ask AI to generate morphology that can be derived by rules.
 ```
 
-Morphological forms should remain deterministic and testable.
-
-AI can later be added around the engine for tasks that benefit from generative language capabilities—for example, creating example sentences for already validated forms—but the morphology itself should remain rule-driven.
-
-This separation makes the system easier to audit:
-
-```text
-Python rules
-   ↓
-validated word form
-   ↓
-optional downstream example sentence / learning content
-```
+Morphological forms should remain deterministic and testable. AI can later be added around the engine for tasks such as example generation, while the morphology layer remains rule-driven.
 
 ---
 
@@ -462,6 +351,4 @@ The generated data can serve as infrastructure for:
 
 **Active development.**
 
-The repository currently contains executable noun and verb grammar rules, batch generators, structured vocabulary input, automated tests, and multi-format dataset export.
-
-Current work focuses on expanding rule coverage, validating more lexical combinations, improving dataset quality, and connecting validated morphology to richer language-learning content.
+The repository now contains a unified multilingual morphology pipeline, canonical lexical data, dictionary lookup, SQLite lexicon support, automated tests, and multi-format export.
