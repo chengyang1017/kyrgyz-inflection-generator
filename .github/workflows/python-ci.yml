@@ -1,0 +1,50 @@
+name: Python CI
+
+on:
+  push:
+    branches: [main, refactor/lexical-model]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-generate:
+    name: Test unified generator
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
+
+      - name: Compile source
+        run: python -m compileall src
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Generate all localized datasets
+        run: python src/main.py --locale all
+
+      - name: Verify generated outputs
+        run: |
+          test -f output/canonical/kyrgyz.json
+          test -f output/canonical/kyrgyz.db
+          for locale in en zh ru; do
+            test -f "output/$locale/kyrgyz.xlsx"
+            test -f "output/$locale/kyrgyz.json"
+            test -f "output/$locale/kyrgyz.db"
+            test -f "output/$locale/kyrgyz_nouns.csv"
+            test -f "output/$locale/kyrgyz_verbs.csv"
+          done
