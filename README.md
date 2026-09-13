@@ -1,423 +1,184 @@
 # Kyrgyz Inflection Generator
 
-> A rule-based Kyrgyz morphological inflection generator written in Python.
+**English | [简体中文](README.zh-CN.md)**
 
-**Kyrgyz Inflection Generator** 是一个用于自动生成吉尔吉斯语（Кыргыз тили）词形变化的 Python 项目。
+A rule-based **Kyrgyz morphology engine and dataset generator** written in Python.
 
-项目将吉尔吉斯语的部分形态学规则编码为可执行程序，根据词干自动生成名词和动词的不同变化形式，并可以将生成结果批量导出为 **CSV、JSON、Excel 和 SQLite**。
+Instead of storing every inflected word form by hand, the project encodes reusable grammar rules for Kyrgyz nouns and verbs, applies those rules to vocabulary data, and exports the generated paradigms as structured datasets.
 
-它既可以作为吉尔吉斯语词形研究与实验工具，也可以作为词典、语言学习软件和自然语言处理项目的数据生成基础。
+```text
+Lexeme
+  +
+Morphological rules
+  ↓
+Generated word forms
+  ↓
+CSV / JSON / Excel / SQLite
+```
+
+The project is designed as language infrastructure that can later support dictionaries, learning tools, search systems, NLP experiments, and other Kyrgyz-language software.
 
 ---
 
-## Features
+## Screenshots
 
-* 🇰🇬 吉尔吉斯语词形自动生成
-* 🔤 基于元音和谐选择后缀
-* 🔊 根据词尾处理辅音变化
-* 📚 名词复数生成
-* 🧩 名词格变化
-* 👤 名词领属变化
-* 🗣️ 动词人称变化
-* ⏱️ 动词时态生成
-* 🚫 动词否定形式
-* 📦 支持批量处理词表
-* 📊 使用 Pandas 生成结构化数据
-* 🧪 提供自动化测试
-* 💾 支持 CSV / JSON / Excel / SQLite 输出
+> Screenshot placeholders are intentionally kept here. Add images under `docs/screenshots/` when ready.
+
+### Generated Noun Forms
+
+📸 **Screenshot placeholder:** `docs/screenshots/noun-forms.png`
+
+### Generated Verb Forms
+
+📸 **Screenshot placeholder:** `docs/screenshots/verb-forms.png`
+
+### Excel Dataset
+
+📸 **Screenshot placeholder:** `docs/screenshots/excel-output.png`
+
+### JSON / Structured Output
+
+📸 **Screenshot placeholder:** `docs/screenshots/json-output.png`
+
+### Rule Tests
+
+📸 **Screenshot placeholder:** `docs/screenshots/tests.png`
 
 ---
 
-## Why This Project?
+## What It Does
 
-吉尔吉斯语属于黏着语。
+The generator currently focuses on deterministic morphology rather than asking an AI model to invent word forms.
 
-一个词可以通过不断添加后缀表达：
+### Nouns
 
-```text
-词根
-  ↓
-复数
-  ↓
-领属
-  ↓
-格
-  ↓
-其他语法信息
-```
+The noun engine handles areas such as:
 
-例如，一个名词并不是只有一个固定形式。
+- Plural formation
+- Case inflection
+- Possessive forms
+- Vowel harmony
+- Consonant-sensitive suffix selection
+- Stem alternations
+- Selected irregular forms
+
+Example:
 
 ```text
 китеп
-```
-
-可以根据语法环境产生：
-
-```text
-китеп
+  ↓ plural
 китептер
+
+китеп
+  ↓ locative
 китепте
+
+китеп
+  ↓ genitive
 китептин
+
+китеп
+  ↓ first-person possessive
 китебим
+```
+
+The final example is not just string concatenation: the stem consonant changes from `п` to `б` before the possessive suffix.
+
+### Verbs
+
+The verb engine includes rules for areas such as:
+
+- Person agreement
+- Present / future forms
+- Present continuous constructions
+- Past forms
+- Negative forms
+- Imperatives
+
+Example:
+
+```text
+оку
+  ↓ present continuous
+окуп жатамын
+
+оку
+  ↓ negative past
+окубодум
+
+оку
+  ↓ negative future
+окубайт
+```
+
+---
+
+## Why Rule-Based Generation?
+
+Kyrgyz is an agglutinative language. A lexeme can produce many surface forms through combinations of suffixes and morphophonological changes.
+
+A dictionary could store every form manually:
+
+```text
+word
+word_form_1
+word_form_2
+word_form_3
 ...
 ```
 
-如果手动为词典中的每一个词填写全部词形，不仅工作量巨大，而且容易出现重复劳动。
+but that duplicates predictable information.
 
-这个项目采用另一种方式：
+This project instead stores the lexeme and the linguistic rules:
 
 ```text
-词根 + 语言规则 → 自动生成词形
+lexeme
++
+vowel harmony
++
+consonant rules
++
+case / possession / tense rules
+        ↓
+reproducible forms
 ```
 
-因此词典只需要维护基础词汇和必要的例外信息，大量规则性词形可以由程序生成。
+That makes the generated data easier to regenerate, validate, expand, and reuse.
 
 ---
 
-# Architecture
+## Morphology Pipeline
 
 ```text
-Dictionary Source
-      │
-      ▼
- nouns.json / verbs.json
-      │
-      ▼
- Grammar Rules
-      │
-      ├── Noun Grammar
-      │
-      └── Verb Grammar
-      │
-      ▼
- Inflection Generator
-      │
-      ▼
- Pandas DataFrame
-      │
-      ├── CSV
-      ├── JSON
-      ├── Excel
-      └── SQLite
+Vocabulary data
+  nouns.json / verbs.json
+          │
+          ▼
+   Grammar modules
+     │          │
+     ▼          ▼
+  Nouns       Verbs
+     │          │
+     └────┬─────┘
+          ▼
+  Pandas DataFrames
+          │
+   ┌──────┼──────┬────────┐
+   ▼      ▼      ▼        ▼
+  CSV    JSON   Excel   SQLite
 ```
 
-整个系统分为三个主要部分：
-
-### 1. Vocabulary Data
-
-保存词典中的基础词形。
-
-### 2. Grammar Engine
-
-根据吉尔吉斯语语法规则计算后缀与词干变化。
-
-### 3. Dataset Generator
-
-将规则应用到大量词汇，并输出结构化词形数据库。
+The generation path is deterministic: the same lexical input and rule implementation produce the same morphological output.
 
 ---
 
-# Noun Inflection
+## Vowel Harmony
 
-名词规则主要位于：
+Suffix selection depends on the vowel pattern of the stem.
 
-```text
-src/grammar.py
-```
+The grammar layer detects the final relevant vowel and chooses matching suffix vowels from Kyrgyz harmony classes.
 
-项目根据：
-
-* 最后一个元音
-* 元音和谐
-* 词尾是否为元音
-* 词尾辅音类别
-* 清辅音 / 浊辅音
-* 特殊词形
-
-决定应该使用的后缀。
-
----
-
-## Plural
-
-例如：
-
-```text
-китеп
-```
-
-生成：
-
-```text
-китептер
-```
-
-而不只是简单地给所有词增加固定后缀。
-
-程序会根据词尾和元音环境选择：
-
-```text
--лар
--лер
--лор
--лөр
-
--дар
--дер
--дор
--дөр
-
--тар
--тер
--тор
--төр
-```
-
-等对应形式。
-
-项目也允许处理不规则形式。
-
----
-
-# Cases
-
-当前规则模块包含多种名词格与相关派生形式。
-
-例如：
-
-### Locative
-
-表示“在……”。
-
-```text
-китеп → китепте
-```
-
-### Ablative
-
-表示“从……”。
-
-### Genitive
-
-表示所属关系。
-
-```text
-китеп → китептин
-```
-
-### Dative
-
-表示方向或目标。
-
-### Accusative
-
-表示确定宾语。
-
-### Instrumental
-
-通过：
-
-```text
-менен
-```
-
-构成相关形式。
-
-此外规则模块还包含：
-
-* locative modifier
-* caritive
-* comparative
-
-等形式。
-
----
-
-# Possessive Inflection
-
-项目还实现了吉尔吉斯语名词的领属变化。
-
-包括：
-
-```text
-my
-your_singular
-your_polite
-his_her
-our
-your_plural
-your_plural_polite
-their
-```
-
-例如：
-
-```text
-китеп
-```
-
-第一人称单数领属形式：
-
-```text
-китебим
-```
-
-这里不仅添加领属后缀，还会处理部分词干辅音变化：
-
-```text
-п → б
-```
-
-因此：
-
-```text
-китеп
-   ↓
-китебим
-```
-
-而不是简单拼接字符串。
-
----
-
-# Verb Inflection
-
-动词规则主要位于：
-
-```text
-src/verb_grammar.py
-```
-
-动词生成器位于：
-
-```text
-src/verb_generator.py
-```
-
----
-
-## Persons
-
-当前系统处理以下人称：
-
-```text
-мен
-сен
-сиз
-ал
-биз
-силер
-сиздер
-алар
-```
-
-对应：
-
-```text
-I
-you
-you (polite)
-he / she
-we
-you (plural)
-you (plural polite)
-they
-```
-
----
-
-# Verb Forms
-
-当前动词规则包括：
-
-### Present / Future
-
-生成一般现在或将来相关形式。
-
-### Present Continuous
-
-通过副动词形式与：
-
-```text
-жат
-```
-
-组合生成进行形式。
-
-例如：
-
-```text
-оку
-```
-
-可以生成：
-
-```text
-окуп жатамын
-окуп жатасың
-окуп жатат
-окуп жатышат
-```
-
----
-
-### Past
-
-根据词干和人称生成过去时形式。
-
----
-
-### Negative Past
-
-生成过去时否定形式。
-
-例如：
-
-```text
-оку
-```
-
-可以生成：
-
-```text
-окубодум
-окубоду
-окубошту
-```
-
----
-
-### Negative Future
-
-例如：
-
-```text
-оку
-```
-
-可以生成：
-
-```text
-окубайт
-окушпайт
-```
-
----
-
-### Imperative
-
-支持命令式与否定命令式的基础生成规则。
-
----
-
-# Vowel Harmony
-
-词形生成的核心之一是吉尔吉斯语元音和谐。
-
-程序会寻找词中的最后一个元音，并将其划分到对应元音组。
-
-例如：
+Typical vowel groups include:
 
 ```text
 а / я / ы
@@ -426,36 +187,27 @@ they
 ө / ү
 ```
 
-然后根据不同语法后缀选择：
+This affects suffix vowels such as:
 
 ```text
 а / е / о / ө
-```
-
-或：
-
-```text
 ы / и / у / ү
 ```
 
-等对应元音。
-
 ---
 
-# Consonant Rules
+## Consonant-Sensitive Rules
 
-程序还会根据词尾辅音类别调整后缀。
+Suffix choice also depends on the final sound of the stem.
 
-例如区分：
+The rule engine distinguishes categories such as:
 
-```text
-voiceless consonants
-voiced consonants
-sonorants
-vowels
-```
+- Vowels
+- Voiceless consonants
+- Voiced consonants
+- Sonorants
 
-这会影响：
+This influences alternations including:
 
 ```text
 д / т
@@ -464,9 +216,7 @@ vowels
 л / д / т
 ```
 
-等后缀辅音的选择。
-
-部分词形还包含词干辅音软化，例如：
+Some forms also require stem changes, for example:
 
 ```text
 к → г
@@ -475,9 +225,9 @@ vowels
 
 ---
 
-# Input Data
+## Data Input
 
-英文版项目的数据目录：
+Vocabulary data is stored under:
 
 ```text
 data/
@@ -487,468 +237,118 @@ data/
 └── verbs.txt
 ```
 
-程序优先读取 JSON。
-
-如果 JSON 不存在，也可以读取 TXT。
+JSON is preferred, while TXT can be used as a fallback.
 
 ---
 
-## Noun JSON
+## Structured Output
 
-名词数据可以使用：
-
-```json
-{
-  "nouns": [
-    {
-      "singular": "китеп",
-      "meaning_zh": "书"
-    }
-  ]
-}
-```
-
-主要字段：
-
-```text
-singular
-meaning_zh
-```
-
----
-
-## Verb JSON
-
-动词数据：
-
-```json
-{
-  "verbs": [
-    {
-      "infinitive": "окуу",
-      "stem": "оку",
-      "meaning_zh": "读"
-    }
-  ]
-}
-```
-
-主要字段：
-
-```text
-infinitive
-stem
-meaning_zh
-```
-
----
-
-# Generation Pipeline
-
-批量生成流程：
-
-```text
-nouns.json
-     │
-     ▼
-load_nouns()
-     │
-     ▼
-generate_nouns_df()
-     │
-     ┐
-     │
-     ├── generate_all()
-     │
-     ┘
-verbs.json
-     │
-     ▼
-load_verbs()
-     │
-     ▼
-generate_verbs_df()
-     │
-     ▼
-export_all_formats()
-```
-
----
-
-# Output Formats
-
-运行生成器后，结果会写入：
+The unified generator writes canonical data plus localized datasets:
 
 ```text
 output/
+├── canonical/
+│   ├── kyrgyz.json
+│   └── kyrgyz.db
+├── en/
+├── zh/
+└── ru/
 ```
 
-当前支持：
-
-```text
-kyrgyz.xlsx
-kyrgyz.json
-kyrgyz.db
-kyrgyz_nouns.csv
-kyrgyz_verbs.csv
-```
+Each localized directory contains Excel, JSON, SQLite, and noun/verb CSV exports.
 
 ---
 
-## Excel
-
-```text
-kyrgyz.xlsx
-```
-
-包含多个 Sheet：
-
-```text
-Nouns
-Verbs
-```
-
-适合人工检查、编辑和语言资料整理。
-
----
-
-## CSV
-
-分别生成：
-
-```text
-kyrgyz_nouns.csv
-kyrgyz_verbs.csv
-```
-
-适合数据分析、批量处理以及导入其他系统。
-
----
-
-## JSON
-
-```text
-kyrgyz.json
-```
-
-结构大致为：
-
-```json
-{
-  "nouns": [],
-  "verbs": []
-}
-```
-
-适合：
-
-* Web
-* Flutter
-* React Native
-* API
-* NLP 工具
-
-使用。
-
----
-
-## SQLite
-
-```text
-kyrgyz.db
-```
-
-数据库包含：
-
-```text
-nouns
-verbs
-```
-
-两个主要数据表。
-
-适合直接作为词典或语言应用的数据源。
-
----
-
-# Project Structure
-
-仓库目前包含中文和英文两个版本。
+## Project Structure
 
 ```text
 kyrgyz-inflection-generator/
-│
-├── 吉尔吉斯语/
-│   ├── data/
-│   ├── output/
-│   ├── src/
-│   └── tests/
-│
-└── kyrgyz-inflection-generator-en/
-    │
-    ├── data/
-    │   ├── nouns.json
-    │   ├── nouns.txt
-    │   ├── verbs.json
-    │   └── verbs.txt
-    │
-    ├── src/
-    │   ├── __init__.py
-    │   ├── main.py
-    │   ├── generator.py
-    │   ├── grammar.py
-    │   ├── noun_generator.py
-    │   ├── verb_grammar.py
-    │   ├── verb_generator.py
-    │   └── utils.py
-    │
-    ├── tests/
-    │   ├── test_grammar.py
-    │   └── test_verb_grammar.py
-    │
-    └── output/
-        ├── kyrgyz.xlsx
-        ├── kyrgyz.json
-        ├── kyrgyz.db
-        ├── kyrgyz_nouns.csv
-        └── kyrgyz_verbs.csv
+├── data/
+├── docs/
+├── locales/
+├── src/
+├── tests/
+├── requirements.txt
+├── requirements-dev.txt
+├── README.md
+└── README.zh-CN.md
 ```
+
+The multilingual and lexical-model refactors unify the project into one codebase with locale-independent morphology and reusable lexical data.
 
 ---
 
-# Getting Started
+## Getting Started
 
 Clone the repository:
 
 ```bash
 git clone https://github.com/chengyang1017/kyrgyz-inflection-generator.git
+cd kyrgyz-inflection-generator
 ```
 
-进入英文版目录：
+Install dependencies:
 
 ```bash
-cd kyrgyz-inflection-generator/kyrgyz-inflection-generator-en
+pip install -r requirements-dev.txt
 ```
 
-安装数据处理依赖：
+Run the generator for every supported locale:
 
 ```bash
-pip install pandas openpyxl
+python src/main.py --locale all
+```
+
+Or generate one locale:
+
+```bash
+python src/main.py --locale en
 ```
 
 ---
 
-# Run
+## Tests
 
-运行完整数据生成：
-
-```bash
-python src/main.py
-```
-
-程序会：
-
-```text
-读取名词
-   ↓
-生成名词变化
-
-读取动词
-   ↓
-生成动词变化
-
-合并结构化数据
-   ↓
-输出 CSV
-输出 JSON
-输出 Excel
-输出 SQLite
-```
-
-完成后可以在：
-
-```text
-output/
-```
-
-查看生成的数据。
-
----
-
-# Tests
-
-项目包含名词和动词语法规则测试。
-
-安装 pytest：
-
-```bash
-pip install pytest
-```
-
-运行：
+Run:
 
 ```bash
 pytest
 ```
 
-目前测试包含类似：
-
-```text
-китеп → китептер
-китеп → китепте
-китеп → китептин
-китеп → китебим
-```
-
-以及：
-
-```text
-оку → окуп жатамын
-оку → окубодум
-оку → окубайт
-```
-
-等规则。
+The tests protect grammar rules, canonical lexical data, dictionary lookup, SQLite export, localization, and morphology behavior from regressions.
 
 ---
 
-# Design Philosophy
+## Design Principle
 
-这个项目的核心并不是：
-
-```text
-把所有词形手工写进数据库
-```
-
-而是：
+The core principle is:
 
 ```text
-保存词根
-   +
-编码语法规则
-   ↓
-自动生成词形
+Do not ask AI to generate morphology that can be derived by rules.
 ```
 
-例如，如果一个词理论上拥有几十甚至数百种规则组合，与其：
-
-```text
-word
-word_form_1
-word_form_2
-word_form_3
-word_form_4
-...
-```
-
-全部人工维护，不如保存：
-
-```text
-lexeme
-+
-morphological rules
-```
-
-再由程序生成：
-
-```text
-lexeme
-      │
-      ├── number
-      ├── case
-      ├── possession
-      ├── person
-      ├── tense
-      └── polarity
-```
-
-这使语言数据能够更加系统化，并减少大量重复数据维护工作。
+Morphological forms should remain deterministic and testable. AI can later be added around the engine for tasks such as example generation, while the morphology layer remains rule-driven.
 
 ---
 
-# Possible Uses
+## Potential Uses
 
-这个生成器可以作为以下项目的数据基础：
+The generated data can serve as infrastructure for:
 
-* 📖 吉尔吉斯语词典
-* 🎓 吉尔吉斯语学习软件
-* 🌍 多语言词典
-* 🔎 Morphological Search
-* 🧠 NLP preprocessing
-* 📝 拼写与语法工具
-* 📊 语言数据研究
-* 🗃️ Lexical database
-* 📱 Flutter / React Native language apps
-
----
-
-# Roadmap
-
-* [ ] 增加更多名词规则
-* [ ] 增加更多动词时态
-* [ ] 扩展不规则词数据库
-* [ ] 完善辅音变化
-* [ ] 增加更多自动化测试
-* [ ] 增加词形反向分析
-* [ ] 支持输入一个词并查询全部变化
-* [ ] 增加 Morphological Analyzer
-* [ ] 完善词形组合规则
-* [ ] 与多语言词典数据系统整合
+- Kyrgyz dictionaries
+- Inflection lookup tools
+- Language-learning applications
+- Search normalization
+- Offline mobile apps
+- NLP preprocessing
+- Morphology APIs
+- Example-sentence pipelines
+- Linguistic datasets
 
 ---
 
-# Morphological Generator vs Dictionary
+## Status
 
-这个项目本身并不是完整词典。
+**Active development.**
 
-它负责：
-
-```text
-Lexeme
-   ↓
-Morphological Rules
-   ↓
-Inflected Forms
-```
-
-而词典系统负责：
-
-```text
-Word
-   ↓
-Meaning
-   ↓
-Grammar
-   ↓
-Examples
-```
-
-两者结合后，可以形成：
-
-```text
-Dictionary
-     +
-Inflection Generator
-     ↓
-Structured Language Database
-```
-
----
-
-# Status
-
-This project is under active development.
-
-当前实现主要用于语言规则建模、程序实验和结构化语言数据生成。
-
-部分规则仍需要随着更多真实语言资料和词汇测试继续校正，因此生成结果应在正式语言学或生产环境使用前进行验证。
-
----
-
-# Author
-
-**Cheng Yang**
-
-A language technology project focused on representing Kyrgyz morphology as reusable computational rules.
-
-> Store the lexeme. Encode the grammar. Generate the forms.
+The repository now contains a unified multilingual morphology pipeline, canonical lexical data, dictionary lookup, SQLite lexicon support, automated tests, and multi-format export.
